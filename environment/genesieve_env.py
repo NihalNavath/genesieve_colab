@@ -32,7 +32,6 @@ class GenesieveObservation:
 # ---------------- ENV ---------------- #
 
 class GenesieveEnvironment:
-
     def __init__(self):
         self.env_id = str(uuid4())
         self._rng = random.Random()
@@ -99,10 +98,10 @@ class GenesieveEnvironment:
         if self._state is None:
             raise RuntimeError("Environment not initialized. Call reset() first.")
 
-        if self._state["done"]:
+        if self._state.get("done"):
             return self._build_obs(-0.5)
 
-        # ---------- PARSE ACTION (ONCE ONLY) ---------- #
+        # ---------- PARSE ACTION ---------- #
         if isinstance(action, dict):
             tool = action.get("tool")
             args = action.get("args", {}) or {}

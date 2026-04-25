@@ -1,0 +1,340 @@
+{
+  "organism_key": "mtb",
+  "display_name": "Mycobacterium tuberculosis H37Rv",
+  "genes": [
+    {
+      "gene_id": "Rv0001",
+      "gene_name": "dnaA",
+      "function": "Chromosomal replication initiator",
+      "pathway": "DNA replication",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [],
+      "is_valid_target": false
+    },
+    {
+      "gene_id": "Rv0006",
+      "gene_name": "gyrA",
+      "function": "DNA gyrase subunit A",
+      "pathway": "DNA replication",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [
+        {
+          "compound_id": "CHEMBL4",
+          "compound_name": "Ciprofloxacin",
+          "activity_value": 0.008,
+          "activity_units": "\u00b5M"
+        },
+        {
+          "compound_id": "CHEMBL715",
+          "compound_name": "Levofloxacin",
+          "activity_value": 0.012,
+          "activity_units": "\u00b5M"
+        }
+      ],
+      "is_valid_target": true
+    },
+    {
+      "gene_id": "Rv1484",
+      "gene_name": "inhA",
+      "function": "Enoyl-ACP reductase (InhA)",
+      "pathway": "Mycolic acid synthesis",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [
+        {
+          "compound_id": "CHEMBL615",
+          "compound_name": "Isoniazid",
+          "activity_value": 0.02,
+          "activity_units": "\u00b5M"
+        },
+        {
+          "compound_id": "CHEMBL749",
+          "compound_name": "Ethionamide",
+          "activity_value": 1.5,
+          "activity_units": "\u00b5M"
+        }
+      ],
+      "is_valid_target": true
+    },
+    {
+      "gene_id": "Rv2245",
+      "gene_name": "kasA",
+      "function": "Beta-ketoacyl-ACP synthase I",
+      "pathway": "Fatty acid elongation",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [
+        {
+          "compound_id": "CHEMBL1347",
+          "compound_name": "Thiolactomycin",
+          "activity_value": 2.3,
+          "activity_units": "\u00b5M"
+        }
+      ],
+      "is_valid_target": true
+    },
+    {
+      "gene_id": "Rv0667",
+      "gene_name": "rpoB",
+      "function": "RNA polymerase beta subunit",
+      "pathway": "Transcription",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [
+        {
+          "compound_id": "CHEMBL374",
+          "compound_name": "Rifampicin",
+          "activity_value": 0.015,
+          "activity_units": "\u00b5M"
+        }
+      ],
+      "is_valid_target": true
+    },
+    {
+      "gene_id": "Rv3800c",
+      "gene_name": "pks13",
+      "function": "Polyketide synthase 13",
+      "pathway": "Mycolic acid synthesis",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [
+        {
+          "action_type": null,
+          "activity_comment": null,
+          "activity_id": 18127365,
+          "activity_properties": [],
+          "assay_chembl_id": "CHEMBL4028447",
+          "assay_description": "Inhibition of Mycobacterium tuberculosis ATCC 25618 H37Rv Pks13 thioesterase domain expressed in Escherichia coli BL21(DE3) using 4-MUH as substrate by fluorescence assay",
+          "assay_type": "B",
+          "assay_variant_accession": null,
+          "assay_variant_mutation": null,
+          "bao_endpoint": "BAO_0000190",
+          "bao_format": "BAO_0000019",
+          "bao_label": "assay format",
+          "canonical_smiles": "CCOC(=O)c1c(-c2ccccc2)oc2ccc(O)c(CN3CCC(C)CC3)c12",
+          "data_validity_comment": null,
+          "data_validity_description": null,
+          "document_chembl_id": "CHEMBL4024797",
+          "document_journal": "J Med Chem",
+          "document_year": 2018,
+          "ligand_efficiency": {
+            "bei": "16.74",
+            "le": "0.31",
+            "lle": "1.38",
+            "sei": "10.47"
+          },
+          "molecule_chembl_id": "CHEMBL4063356",
+          "molecule_pref_name": null,
+          "parent_molecule_chembl_id": "CHEMBL4063356",
+          "pchembl_value": "6.58",
+          "potential_duplicate": 0,
+          "qudt_units": "http://www.openphacts.org/units/Nanomolar",
+          "record_id": 3006052,
+          "relation": "=",
+          "src_id": 1,
+          "standard_flag": 1,
+          "standard_relation": "=",
+          "standard_text_value": null,
+          "standard_type": "IC50",
+          "standard_units": "nM",
+          "standard_upper_value": null,
+          "standard_value": "260.0",
+          "target_chembl_id": "CHEMBL4105939",
+          "target_organism": "Mycobacterium tuberculosis (strain ATCC 25618 / H37Rv)",
+          "target_pref_name": "Polyketide synthase Pks13",
+          "target_tax_id": "83332",
+          "text_value": null,
+          "toid": null,
+          "type": "IC50",
+          "units": "uM",
+          "uo_units": "UO_0000065",
+          "upper_value": null,
+          "value": "0.26"
+        },
+        {
+          "action_type": null,
+          "activity_comment": null,
+          "activity_id": 19164286,
+          "activity_properties": [],
+          "assay_chembl_id": "CHEMBL4383981",
+          "assay_description": "Inhibition of Mycobacterium tuberculosis H37Rv N-terminal His6-tagged Pks13 thioesterase domain expressed in Escherichia coli BL21(DE3) using 4-MUH as substrate measured at 10 mins interval over 110 mins by fluorescence assay",
+          "assay_type": "B",
+          "assay_variant_accession": null,
+          "assay_variant_mutation": null,
+          "bao_endpoint": "BAO_0000190",
+          "bao_format": "BAO_0000019",
+          "bao_label": "assay format",
+          "canonical_smiles": "CNC(=O)c1c(-c2ccc(O)cc2)oc2ccc(O)c(CN3CCCCC3)c12",
+          "data_validity_comment": null,
+          "data_validity_description": null,
+          "document_chembl_id": "CHEMBL4382229",
+          "document_journal": "Eur J Med Chem",
+          "document_year": 2019,
+          "ligand_efficiency": null,
+          "molecule_chembl_id": "CHEMBL4443524",
+          "molecule_pref_name": null,
+          "parent_molecule_chembl_id": "CHEMBL4443524",
+          "pchembl_value": null,
+          "potential_duplicate": 0,
+          "qudt_units": "http://www.openphacts.org/units/MicrogramPerMilliliter",
+          "record_id": 3198390,
+          "relation": "=",
+          "src_id": 1,
+          "standard_flag": 1,
+          "standard_relation": "=",
+          "standard_text_value": null,
+          "standard_type": "IC50",
+          "standard_units": "ug.mL-1",
+          "standard_upper_value": null,
+          "standard_value": "0.19",
+          "target_chembl_id": "CHEMBL4105939",
+          "target_organism": "Mycobacterium tuberculosis (strain ATCC 25618 / H37Rv)",
+          "target_pref_name": "Polyketide synthase Pks13",
+          "target_tax_id": "83332",
+          "text_value": null,
+          "toid": null,
+          "type": "IC50",
+          "units": "ug ml-1",
+          "uo_units": "UO_0000274",
+          "upper_value": null,
+          "value": "0.19"
+        },
+        {
+          "action_type": null,
+          "activity_comment": null,
+          "activity_id": 19204706,
+          "activity_properties": [],
+          "assay_chembl_id": "CHEMBL4392088",
+          "assay_description": "Inhibition of Pks13 D1644G/N1640K double mutant thioesterase domain in Mycobacterium tuberculosis H37Rv assessed as reduction in bacterial growth by microplate alamar blue assay",
+          "assay_type": "B",
+          "assay_variant_accession": "I6X8D2",
+          "assay_variant_mutation": "D1644G,N1640K",
+          "bao_endpoint": "BAO_0000179",
+          "bao_format": "BAO_0000357",
+          "bao_label": "single protein format",
+          "canonical_smiles": "CCOC(=O)c1c(-c2ccccc2)oc2ccc(O)c(CN3CCC(C)CC3)c12",
+          "data_validity_comment": null,
+          "data_validity_description": null,
+          "document_chembl_id": "CHEMBL4390673",
+          "document_journal": "J Med Chem",
+          "document_year": 2019,
+          "ligand_efficiency": null,
+          "molecule_chembl_id": "CHEMBL4063356",
+          "molecule_pref_name": null,
+          "parent_molecule_chembl_id": "CHEMBL4063356",
+          "pchembl_value": null,
+          "potential_duplicate": 0,
+          "qudt_units": "http://www.openphacts.org/units/MicrogramPerMilliliter",
+          "record_id": 3205348,
+          "relation": "=",
+          "src_id": 1,
+          "standard_flag": 0,
+          "standard_relation": "=",
+          "standard_text_value": null,
+          "standard_type": "MIC=<90",
+          "standard_units": "ug ml-1",
+          "standard_upper_value": null,
+          "standard_value": "1.0",
+          "target_chembl_id": "CHEMBL4105939",
+          "target_organism": "Mycobacterium tuberculosis (strain ATCC 25618 / H37Rv)",
+          "target_pref_name": "Polyketide synthase Pks13",
+          "target_tax_id": "83332",
+          "text_value": null,
+          "toid": null,
+          "type": "MIC=<90",
+          "units": "ug ml-1",
+          "uo_units": "UO_0000274",
+          "upper_value": null,
+          "value": "1.0"
+        }
+      ],
+      "is_valid_target": true
+    },
+    {
+      "gene_id": "Rv2524c",
+      "gene_name": "fas",
+      "function": "Fatty acid synthase",
+      "pathway": "Fatty acid synthesis",
+      "essential": true,
+      "has_human_homolog": true,
+      "binding_compounds": [],
+      "is_valid_target": false
+    },
+    {
+      "gene_id": "Rv2194",
+      "gene_name": "mmpL3",
+      "function": "Mycolic acid transporter",
+      "pathway": "Cell wall assembly",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [
+        {
+          "compound_id": "CHEMBL4523126",
+          "compound_name": "SQ109",
+          "activity_value": 0.054,
+          "activity_units": "\u00b5M"
+        }
+      ],
+      "is_valid_target": true
+    },
+    {
+      "gene_id": "Rv3283",
+      "gene_name": "folP1",
+      "function": "Dihydropteroate synthase",
+      "pathway": "Folate synthesis",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [
+        {
+          "compound_id": "CHEMBL1359",
+          "compound_name": "Sulfamethoxazole",
+          "activity_value": 1.1,
+          "activity_units": "\u00b5M"
+        }
+      ],
+      "is_valid_target": true
+    },
+    {
+      "gene_id": "Rv1267c",
+      "gene_name": "embR",
+      "function": "Transcriptional activator of emb",
+      "pathway": "Arabinan synthesis",
+      "essential": true,
+      "has_human_homolog": false,
+      "binding_compounds": [],
+      "is_valid_target": false
+    },
+    {
+      "gene_id": "Rv3219",
+      "gene_name": "esxA",
+      "function": "ESAT-6 secreted antigen",
+      "pathway": "Secretion system",
+      "essential": false,
+      "has_human_homolog": false,
+      "binding_compounds": [],
+      "is_valid_target": false
+    },
+    {
+      "gene_id": "Rv1818c",
+      "gene_name": "PE_PGRS",
+      "function": "PE-PGRS family protein",
+      "pathway": "Antigen variation",
+      "essential": false,
+      "has_human_homolog": false,
+      "binding_compounds": [],
+      "is_valid_target": false
+    },
+    {
+      "gene_id": "Rv2818c",
+      "gene_name": "dosT",
+      "function": "Oxygen-sensing kinase",
+      "pathway": "Dormancy response",
+      "essential": false,
+      "has_human_homolog": false,
+      "binding_compounds": [],
+      "is_valid_target": false
+    }
+  ]
+}

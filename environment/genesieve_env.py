@@ -95,31 +95,38 @@ class GenesieveEnvironment:
     # ---------------- STEP ---------------- #
 
     def step(self, action):
+        # ---------- STATE SAFETY ---------- #
         if self._state is None:
             raise RuntimeError("Environment not initialized. Call reset() first.")
 
         if self._state["done"]:
             return self._build_obs(-0.5)
 
-        # Parse action
+        # ---------- PARSE ACTION (ONCE ONLY) ---------- #
         if isinstance(action, dict):
             tool = action.get("tool")
-            gene_name = action.get("args", {}).get("gene_name")
+            args = action.get("args", {}) or {}
         else:
-            tool = action.tool
-            gene_name = action.args.get("gene_name")
+            tool = getattr(action, "tool", None)
+            args = getattr(action, "args", {}) or {}
 
+        gene_name = args.get("gene_name")
+
+        # ---------- HARD VALIDATION ---------- #
         if tool is None:
-            raise ValueError("Action missing 'tool'")
+            return self._build_obs(-0.3)
 
         if gene_name is None:
-            raise ValueError("Action missing gene_name")
+            return self._build_obs(-0.4)
 
         g = self._state["all_genes"].get(gene_name)
 
         if g is None:
-            # invalid gene → penalize, don't crash
             return self._build_obs(-0.4)
+
+        # ---------- SAFE FROM HERE ---------- #
+        reward = 0.0
+        result = None
 
         valid_tools = {
             "inspect_gene",
@@ -130,11 +137,6 @@ class GenesieveEnvironment:
 
         if tool not in valid_tools:
             return self._build_obs(-0.3)
-
-        reward = 0.0
-        result = None
-
-        # ----------- TOOL LOGIC ----------- #
 
         if tool == "inspect_gene":
             result = g["essential"]
@@ -153,11 +155,7 @@ class GenesieveEnvironment:
             result = g["is_valid_target"]
             reward = 3.0 if result else -1.5
 
-        else:
-            raise ValueError(f"Invalid tool: {tool}")
-
-        # ----------- UPDATE STATE ----------- #
-
+        # ---------- UPDATE STATE ---------- #
         self._state["budget"] -= 1
         self._state["step_count"] += 1
 

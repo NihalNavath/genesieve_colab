@@ -9,7 +9,9 @@ BUDGET = 15
 MAX_GENES_SHOWN = 20
 MIN_VALID_VISIBLE = 3
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
+DATA_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "data")
+)
 ORGANISMS = ["ecoli", "saureus", "mtb"]
 
 HIDDEN_GENE_FIELDS = {"binding_compounds", "has_human_homolog", "is_valid_target", "essential"}
@@ -114,6 +116,10 @@ class GenesieveEnvironment:
             raise ValueError("Action missing gene_name")
 
         g = self._state["all_genes"].get(gene_name)
+
+        if g is None:
+            # invalid gene → penalize, don't crash
+            return self._build_obs(-0.4)
 
         valid_tools = {
             "inspect_gene",

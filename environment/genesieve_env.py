@@ -115,8 +115,15 @@ class GenesieveEnvironment:
 
         g = self._state["all_genes"].get(gene_name)
 
-        if g is None:
-            raise ValueError(f"Invalid gene: {gene_name}")
+        valid_tools = {
+            "inspect_gene",
+            "check_human_homolog",
+            "test_binding",
+            "submit_target",
+        }
+
+        if tool not in valid_tools:
+            return self._build_obs(-0.3)
 
         reward = 0.0
         result = None

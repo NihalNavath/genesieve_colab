@@ -10,7 +10,7 @@ MAX_GENES_SHOWN = 20
 MIN_VALID_VISIBLE = 3
 
 DATA_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "data")
+    os.path.join(os.path.dirname(__file__), "..", "data")
 )
 ORGANISMS = ["ecoli", "saureus", "mtb"]
 

@@ -9,9 +9,9 @@ BUDGET = 15
 MAX_GENES_SHOWN = 20
 MIN_VALID_VISIBLE = 3
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-path = os.path.join(BASE_DIR, "data", "genes_ecoli.json")
-
+DATA_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "data")
+)
 ORGANISMS = ["ecoli", "saureus", "mtb"]
 
 HIDDEN_GENE_FIELDS = {"binding_compounds", "has_human_homolog", "is_valid_target", "essential"}

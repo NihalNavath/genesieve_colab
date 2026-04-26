@@ -1,9 +1,9 @@
 ---
-base_model: unsloth/qwen2.5-1.5b-instruct-unsloth-bnb-4bit
+base_model: unsloth/qwen2.5-3b-unsloth-bnb-4bit
 library_name: peft
 model_name: genesieve_format_model
 tags:
-- base_model:adapter:unsloth/qwen2.5-1.5b-instruct-unsloth-bnb-4bit
+- base_model:adapter:unsloth/qwen2.5-3b-unsloth-bnb-4bit
 - lora
 - sft
 - transformers

@@ -1,4 +1,4 @@
-# genesieve_env.py (COLAB SAFE + STRICT VERSION)
+# genesieve_env.py (FIXED RL VERSION)
 
 from uuid import uuid4
 import json, os, random
@@ -9,9 +9,9 @@ BUDGET = 15
 MAX_GENES_SHOWN = 20
 MIN_VALID_VISIBLE = 3
 
-DATA_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "data")
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+path = os.path.join(BASE_DIR, "data", "genes_ecoli.json")
+
 ORGANISMS = ["ecoli", "saureus", "mtb"]
 
 HIDDEN_GENE_FIELDS = {"binding_compounds", "has_human_homolog", "is_valid_target", "essential"}
@@ -46,33 +46,18 @@ class GenesieveEnvironment:
             self._rng = random.Random(seed)
 
         key = self._rng.choice(ORGANISMS)
-
-        if key not in self._gene_db:
-            raise ValueError(f"Organism {key} not loaded")
-
         db = self._gene_db[key]
 
-        if "genes" not in db:
-            raise ValueError(f"Invalid dataset: missing 'genes' field")
-
         all_genes = db["genes"]
-
-        if not all_genes:
-            raise ValueError("Dataset contains zero genes")
-
         lookup = {g["gene_name"]: g for g in all_genes}
 
-        valid = [g for g in all_genes if g.get("is_valid_target")]
-        invalid = [g for g in all_genes if not g.get("is_valid_target")]
-
-        if len(valid) == 0:
-            raise ValueError("No valid targets in dataset")
+        valid = [g for g in all_genes if g["is_valid_target"]]
+        invalid = [g for g in all_genes if not g["is_valid_target"]]
 
         chosen_valid = self._rng.sample(valid, min(MIN_VALID_VISIBLE, len(valid)))
         chosen_invalid = self._rng.sample(invalid, min(MAX_GENES_SHOWN - len(chosen_valid), len(invalid)))
 
         remaining = [g for g in all_genes if g not in chosen_valid + chosen_invalid]
-
         needed = MAX_GENES_SHOWN - len(chosen_valid) - len(chosen_invalid)
         extra = self._rng.sample(remaining, min(len(remaining), max(0, needed)))
 
@@ -94,14 +79,14 @@ class GenesieveEnvironment:
     # ---------------- STEP ---------------- #
 
     def step(self, action):
-        # ---------- STATE SAFETY ---------- #
-        if self._state is None:
-            raise RuntimeError("Environment not initialized. Call reset() first.")
 
-        if self._state.get("done"):
+        if self._state is None:
+            raise RuntimeError("Call reset() first.")
+
+        if self._state["done"]:
             return self._build_obs(-0.5)
 
-        # ---------- PARSE ACTION ---------- #
+        # --- Parse ---
         if isinstance(action, dict):
             tool = action.get("tool")
             args = action.get("args", {}) or {}
@@ -111,7 +96,7 @@ class GenesieveEnvironment:
 
         gene_name = args.get("gene_name")
 
-        # ---------- HARD VALIDATION ---------- #
+        # --- Validate ---
         if tool is None:
             return self._build_obs(-0.3)
 
@@ -123,10 +108,6 @@ class GenesieveEnvironment:
         if g is None:
             return self._build_obs(-0.4)
 
-        # ---------- SAFE FROM HERE ---------- #
-        reward = 0.0
-        result = None
-
         valid_tools = {
             "inspect_gene",
             "check_human_homolog",
@@ -136,6 +117,11 @@ class GenesieveEnvironment:
 
         if tool not in valid_tools:
             return self._build_obs(-0.3)
+
+        reward = 0.0
+        result = None
+
+        # --- Tool logic ---
 
         if tool == "inspect_gene":
             result = g["essential"]
@@ -151,10 +137,44 @@ class GenesieveEnvironment:
 
         elif tool == "submit_target":
             self._state["done"] = True
-            result = g["is_valid_target"]
-            reward = 3.0 if result else -1.5
+            is_valid = g["is_valid_target"]
+            result = is_valid
 
-        # ---------- UPDATE STATE ---------- #
+            # --- gather evidence ---
+            signals = [
+                h["result"]
+                for h in self._state["history"]
+                if h["gene"] == gene_name
+            ]
+
+            num_tests = len(signals)
+            efficiency = max(0, (BUDGET - self._state["step_count"]) / BUDGET)
+
+            positive = signals.count(True)
+            negative = signals.count(False)
+
+            # --- reward logic (FIXED) ---
+            if is_valid:
+                if num_tests == 0:
+                    reward = -0.5  # punish blind luck
+                else:
+                    reward = (
+                        1.5
+                        + 0.8 * positive
+                        - 0.6 * negative
+                        + 1.2 * efficiency
+                    )
+            else:
+                reward = (
+                    -1.5
+                    - 0.5 * positive
+                    - 0.3 * num_tests
+                )
+
+                if num_tests == 0:
+                    reward -= 0.5
+
+        # --- Update state ---
         self._state["budget"] -= 1
         self._state["step_count"] += 1
 
@@ -190,14 +210,11 @@ class GenesieveEnvironment:
         for g in genes:
             entry = {k: v for k, v in g.items() if k not in HIDDEN_GENE_FIELDS}
 
-            # Validate required fields
-            for field in ["essential", "has_human_homolog", "binding_compounds"]:
-                if field not in g:
-                    raise ValueError(f"Gene missing required field: {field}")
-
             entry["essential_score"] = self._noisy(g["essential"], 0.7, 0.25)
             entry["safety_score"] = self._noisy(not g["has_human_homolog"], 0.7, 0.25)
-            entry["drug_likelihood"] = self._noisy(len(g["binding_compounds"]) > 0, 0.65, 0.3)
+            entry["drug_likelihood"] = self._noisy(
+                len(g["binding_compounds"]) > 0, 0.65, 0.3
+            )
 
             result.append(entry)
 
@@ -213,16 +230,5 @@ class GenesieveEnvironment:
         for key in ORGANISMS:
             path = os.path.join(DATA_DIR, f"genes_{key}.json")
 
-            if not os.path.exists(path):
-                raise FileNotFoundError(f"Missing dataset file: {path}")
-
             with open(path) as f:
-                data = json.load(f)
-
-            if "genes" not in data:
-                raise ValueError(f"Invalid dataset format in {path}")
-
-            if len(data["genes"]) == 0:
-                raise ValueError(f"Empty dataset: {path}")
-
-            self._gene_db[key] = data
+                self._gene_db[key] = json.load(f)

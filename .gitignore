@@ -1,7 +1,7 @@
 __pycache__/*
 */__pycache__/*
 
-genesieve_format_model
+genesieve_format_model/check*
 rl-env
 
 train.py
